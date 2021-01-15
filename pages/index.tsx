@@ -21,7 +21,7 @@ const IndexPage: React.FC<IIndexPageProps> = ({ currentUser }) => {
   const activeUsers = useSelector(activeUserSelector);
   const inactiveUsers = useSelector(inactiveUserSelector);
   const messages = useSelector(messagesArray);
-  const messagesRef = React.createRef<HTMLDivElement | null>(null);
+  const messagesRef = React.createRef<HTMLDivElement | null>();
 
   React.useEffect(() => {
     dispatch(fetchUsers());
