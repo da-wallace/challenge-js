@@ -1,5 +1,5 @@
 import { addMessage } from '@lib/slices/messages.slice';
-import { addActiveUsers } from '@lib/slices/users.slice';
+import { addActiveUsers, removeActiveUser } from '@lib/slices/users.slice';
 import Cookies from 'js-cookie';
 import { createContext } from 'react';
 import { useDispatch } from 'react-redux';
@@ -40,11 +40,22 @@ export default function WebSocketProvider({ children }) {
       });
 
       socket.on('event://active-users', (msg) => {
-        console.log(msg);
         const payload = JSON.parse(msg);
 
         const pArray = Object.keys(payload).map((k) => payload[k]);
         dispatch(addActiveUsers(pArray));
+      });
+
+      socket.on('event://user-online', (msg) => {
+        const payload = JSON.parse(msg);
+
+        dispatch(addActiveUsers([payload]));
+      });
+
+      socket.on('event://user-offline', (msg) => {
+        const payload = JSON.parse(msg);
+
+        dispatch(removeActiveUser(payload));
       });
     });
   }

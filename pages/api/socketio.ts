@@ -26,7 +26,7 @@ const ioHandler = (req, res) => {
         socket.broadcast.emit('event://new-message', data);
       });
 
-      socket.on('disconnect', async (socket) => {
+      socket.on('disconnected', async (socket) => {
         const user = socket.decodedToken;
         socket.broadcast.emit('event://user-offline', JSON.stringify(user));
         delete activeUsers[user.id];

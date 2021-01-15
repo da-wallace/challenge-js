@@ -41,6 +41,12 @@ const usersSlice = createSlice({
           active: true
         };
       });
+    },
+    removeActiveUser: (state, action: PayloadAction<IUser>) => {
+      state.entities[action.payload.id] = {
+        ...action.payload,
+        active: false
+      };
     }
   },
   extraReducers: (builder) => {
@@ -62,6 +68,6 @@ const usersSlice = createSlice({
   }
 });
 
-export const { addActiveUsers } = usersSlice.actions;
+export const { addActiveUsers, removeActiveUser } = usersSlice.actions;
 
 export default usersSlice.reducer;
