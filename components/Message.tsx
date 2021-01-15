@@ -29,15 +29,15 @@ const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
           <div
             className={`relative text-sm bg-${
               isUser ? 'indigo-100 mr-3' : 'white ml-3'
-            } py-2 px-4 shadow rounded-xl`}>
+            } py-2 px-2 shadow rounded-xl`}>
             <div>
               {hasMetaData ? (
                 message.metadata.map((data) => (
                   <div key={data.id}>
                     <img className="w-full" src={data.image} alt={data.title} />
-                    <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2">{data.title}</div>
-                      <p className="text-grey-darker text-base">{data.description}</p>
+                    <div className="px-0 py-4">
+                      <div className="font-bold text-md mb-2">{data.title}</div>
+                      <p className="text-grey-darker text-sm">{data.description}</p>
                     </div>
                   </div>
                 ))
