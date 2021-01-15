@@ -1,5 +1,6 @@
 export interface IUser {
   id: number;
+  active: boolean;
   username: string;
   createdAt: Date;
   updatedAt: Date;
@@ -27,4 +28,10 @@ export interface IMetaData {
   url: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface IFetchResponse<T> {
+  data?: T;
+  status: string;
+  error?: string;
 }

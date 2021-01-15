@@ -6,7 +6,18 @@ interface INewMessageProps {
 }
 
 const NewMessage: React.FC<INewMessageProps> = ({ onSubmit }) => {
-  const { handleSubmit, register } = useForm();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { isSubmitSuccessful }
+  } = useForm();
+
+  React.useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <form

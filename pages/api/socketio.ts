@@ -1,5 +1,8 @@
 import { authorize } from '@thream/socketio-jwt';
 import { Server } from 'socket.io';
+import { IUser } from 'types';
+
+const activeUsers: Record<number, IUser> = {};
 
 const ioHandler = (req, res) => {
   if (!res.socket.server.io) {
@@ -12,17 +15,21 @@ const ioHandler = (req, res) => {
     );
 
     io.sockets.on('connection', async (socket) => {
-      socket.on('hello', () => {
-        socket.broadcast.emit('userOnline', JSON.stringify(socket.decodedToken));
-        socket.emit('hello', JSON.stringify(socket.decodedToken));
+      socket.on('event://hello', () => {
+        const user = socket.decodedToken;
+        socket.broadcast.emit('event://user-online', JSON.stringify(user));
+        activeUsers[user.id] = user;
+        socket.emit('event://active-users', JSON.stringify(activeUsers));
       });
 
-      socket.on('newMessage', (data) => {
-        socket.broadcast.emit('newMessage', data);
+      socket.on('event://send-message', (data) => {
+        socket.broadcast.emit('event://new-message', data);
       });
 
       socket.on('disconnect', async (socket) => {
-        socket.broadcast.emit('userOffline', JSON.stringify(socket.decodedToken));
+        const user = socket.decodedToken;
+        socket.broadcast.emit('event://user-offline', JSON.stringify(user));
+        delete activeUsers[user.id];
       });
     });
 

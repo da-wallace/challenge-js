@@ -29,6 +29,13 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>()
 
     const { user } = req;
 
+    if (!user) {
+      return res.status(401).json({
+        status: 'error',
+        error: 'Please login.'
+      });
+    }
+
     const metadata = await getMetaData(content);
 
     const newMessage = await models.messages.create(
