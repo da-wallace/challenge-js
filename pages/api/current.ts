@@ -1,12 +1,12 @@
 import auth from '@middleware/auth';
 import models from '@models/index';
-import getMetaData from '@utils/getMetaData';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
+import { IUser } from 'types';
 
 declare module 'next' {
   interface NextApiRequest {
-    user: any;
+    user: IUser;
   }
 }
 

@@ -18,9 +18,9 @@
       "@components/*": ["components/*"],
       "@config/*": ["config/*"],
       "@graphql/*": ["graphql/*"],
+      "@lib/*": ["lib/*"],
       "@middleware/*": ["middleware/*"],
-      "@models/*": ["models/*"],
-      "@utils/*": ["utils/*"]
+      "@models/*": ["models/*"]
     }
   },
   "include": ["next-env.d.ts", "contentful-generated.d.ts", "**/*.ts", "**/*.tsx"],

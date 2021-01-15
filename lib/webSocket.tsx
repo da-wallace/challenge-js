@@ -1,10 +1,9 @@
+import { addMessage } from '@lib/slices/messages.slice';
+import { addActiveUsers } from '@lib/slices/users.slice';
 import Cookies from 'js-cookie';
 import { createContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { io, Socket } from 'socket.io-client';
-
-import { addMessage } from '../lib/slices/messages.slice';
-import { addActiveUsers } from '../lib/slices/users.slice';
 
 export const WebSocketContext = createContext(null);
 
