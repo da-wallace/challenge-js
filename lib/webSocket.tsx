@@ -54,7 +54,6 @@ export default function WebSocketProvider({ children }) {
 
       socket.on('event://user-offline', (msg) => {
         const payload = JSON.parse(msg);
-
         dispatch(removeActiveUser(payload));
       });
     });

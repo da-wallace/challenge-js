@@ -2,10 +2,10 @@ import { authorize } from '@thream/socketio-jwt';
 import { Server } from 'socket.io';
 import { IUser } from 'types';
 
-const activeUsers: Record<number, IUser> = {};
-
 const ioHandler = (req, res) => {
   if (!res.socket.server.io) {
+    const activeUsers: Record<number, IUser> = {};
+
     const io = new Server(res.socket.server);
 
     io.use(
@@ -26,7 +26,7 @@ const ioHandler = (req, res) => {
         socket.broadcast.emit('event://new-message', data);
       });
 
-      socket.on('disconnected', async (socket) => {
+      socket.on('disconnect', async (socket) => {
         const user = socket.decodedToken;
         socket.broadcast.emit('event://user-offline', JSON.stringify(user));
         delete activeUsers[user.id];
