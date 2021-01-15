@@ -37,6 +37,7 @@ const usersSlice = createSlice({
     addActiveUsers: (state, action: PayloadAction<IUser[]>) => {
       action.payload.forEach((d) => {
         state.entities[d.id] = {
+          ...state.entities[d.id],
           ...d,
           active: true
         };
@@ -44,6 +45,7 @@ const usersSlice = createSlice({
     },
     removeActiveUser: (state, action: PayloadAction<IUser>) => {
       state.entities[action.payload.id] = {
+        ...state.entities[action.payload.id],
         ...action.payload,
         active: false
       };
@@ -52,7 +54,6 @@ const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchUsers.pending, (state) => {
       state.loading = 'pending';
-      state.entities = [];
     });
     builder.addCase(fetchUsers.fulfilled, (state, { payload }) => {
       state.loading = 'succeeded';
