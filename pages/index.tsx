@@ -62,7 +62,7 @@ const IndexPage: React.FC<IIndexPageProps> = ({ currentUser }) => {
 };
 
 export async function getServerSideProps(ctx) {
-  const currentUser = (await fetch('http://localhost:3000/api/current', {
+  const currentUser = (await fetch(process.env.BASE_URL + '/api/current', {
     headers: ctx.req ? { cookie: ctx.req.headers.cookie } : undefined
   }).then((res) => res.json())) as IFetchResponse<IUser>;
 
