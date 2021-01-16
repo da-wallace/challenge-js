@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
@@ -12,7 +12,7 @@
     "domino": "^2.1.6",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
-    "next": "latest",
+    "next": "^10.0.5",
     "next-connect": "^0.9.1",
     "page-metadata-parser": "^1.1.4",
     "pg": "^8.5.1",
