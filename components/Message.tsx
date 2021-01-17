@@ -10,11 +10,6 @@ interface IMessageProps {
 
 const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
   const dispatch = useDispatch();
-  const hasMetaData = !!message.metadata?.length;
-
-  const contentWithTags = message.content.replace(/(?!\b)@(?:\w+)/g, function (tag) {
-    return '<span class="mr-1 font-bold text-sm">' + tag + '</span>';
-  });
 
   React.useEffect(() => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -29,6 +24,12 @@ const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
       );
     }
   }, [message]);
+
+  const hasMetaData = !!message.metadata?.length;
+
+  const contentWithTags = message.content.replace(/(?!\b)@(?:\w+)/g, function (tag) {
+    return '<span class="mr-1 font-bold text-sm">' + tag + '</span>';
+  });
 
   const httpsOnly = (url: string) => {
     return url.replace('http://', 'https://');
