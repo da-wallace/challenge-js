@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFetchResponse, IMessage } from 'types';
+import { IFetchResponse, IMessage, IMetaData } from 'types';
 
 export const fetchMessages = createAsyncThunk<
   IFetchResponse<IMessage[]>,
@@ -7,6 +7,24 @@ export const fetchMessages = createAsyncThunk<
   { rejectValue: IFetchResponse<null> }
 >('messages/fetch', async (data, thunkApi) => {
   const response = await fetch(`/api/messages`);
+
+  if (response.status !== 200) {
+    // Return the known error for future handling
+    return thunkApi.rejectWithValue(await response.json());
+  }
+
+  return response.json();
+});
+
+export const fetchMessageMetadata = createAsyncThunk<
+  IFetchResponse<IMetaData[]>,
+  { messageId: number; content: string },
+  { rejectValue: IFetchResponse<null> }
+>('metadata/fetch', async (data, thunkApi) => {
+  const response = await fetch(`/api/metadata`, {
+    method: 'post',
+    body: JSON.stringify(data)
+  });
 
   if (response.status !== 200) {
     // Return the known error for future handling
@@ -82,6 +100,22 @@ const messagesSlice = createSlice({
       }
     });
     builder.addCase(createMessage.rejected, (state, { payload }) => {
+      state.loading = 'failed';
+      state.error = payload.error || '';
+    });
+    builder.addCase(fetchMessageMetadata.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builder.addCase(fetchMessageMetadata.fulfilled, (state, { payload }) => {
+      state.loading = 'succeeded';
+      if (payload.data) {
+        state.entities[payload.data[0].messageId] = {
+          ...state.entities[payload.data[0].messageId],
+          metadata: payload.data
+        };
+      }
+    });
+    builder.addCase(fetchMessageMetadata.rejected, (state, { payload }) => {
       state.loading = 'failed';
       state.error = payload.error || '';
     });

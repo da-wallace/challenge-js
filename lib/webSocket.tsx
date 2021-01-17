@@ -14,7 +14,6 @@ export default function WebSocketProvider({ children }) {
   const token = Cookies.get('token');
 
   const sendMessage = (payload: any) => {
-    console.log(payload);
     socket.emit('event://send-message', JSON.stringify(payload));
   };
 

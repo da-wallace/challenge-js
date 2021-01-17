@@ -1,4 +1,6 @@
+import { fetchMessageMetadata } from '@lib/slices/messages.slice';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { IMessage } from 'types';
 
 interface IMessageProps {
@@ -7,11 +9,26 @@ interface IMessageProps {
 }
 
 const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
+  const dispatch = useDispatch();
   const hasMetaData = !!message.metadata?.length;
 
   const contentWithTags = message.content.replace(/(?!\b)@(?:\w+)/g, function (tag) {
     return '<span class="mr-1 font-bold text-sm">' + tag + '</span>';
   });
+
+  React.useEffect(() => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const matches = message.content.match(urlRegex);
+
+    if (matches?.length && !message.metadata?.length) {
+      dispatch(
+        fetchMessageMetadata({
+          messageId: message.id,
+          content: message.content
+        })
+      );
+    }
+  }, [message]);
 
   return (
     <>

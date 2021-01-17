@@ -2,13 +2,6 @@ import auth from '@middleware/auth';
 import models from '@models/index';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
-import { IUser } from 'types';
-
-declare module 'next' {
-  interface NextApiRequest {
-    user: IUser;
-  }
-}
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>()
   .use(auth)

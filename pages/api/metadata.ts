@@ -6,18 +6,19 @@ import nextConnect from 'next-connect';
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>()
   .use(auth)
-  .get(async (req, res) => {
-    const messages = await models.messages.findAndCountAll({
-      include: [models.metadata, models.users]
-    });
-    res.json({ status: 'success', data: messages.rows, total: messages.count });
-  })
   .post(async (req, res) => {
-    const { content } = JSON.parse(req.body);
+    const { content, messageId } = JSON.parse(req.body);
     if (!content || !content.length) {
       return res.status(400).json({
         status: 'error',
-        error: 'Please enter content.'
+        error: 'Please enter a url.'
+      });
+    }
+
+    if (!messageId) {
+      return res.status(400).json({
+        status: 'error',
+        error: 'Please enter a messageId.'
       });
     }
 
@@ -30,18 +31,31 @@ const handler = nextConnect<NextApiRequest, NextApiResponse>()
       });
     }
 
-    const newMessage = await models.messages.create({
-      content,
-      userId: user.id
-    });
+    const metadata = await getMetaData(content);
+
+    const data = [];
+
+    for (const m of metadata) {
+      const newMetaData = await models.metadata.create({
+        description: m.description,
+        icon: m.icon,
+        image: m.image,
+        title: m.title,
+        keywords: JSON.stringify(m.keywords),
+        provider: m.provider,
+        type: m.type,
+        url: m.url,
+        messageId
+      });
+
+      data.push(newMetaData);
+    }
 
     return res.status(200).json({
       status: 'success',
       message: 'done',
-      data: {
-        ...newMessage.toJSON(),
-        user
-      }
+      data
     });
   });
+
 export default handler;

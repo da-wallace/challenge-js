@@ -26,6 +26,7 @@ export interface IMetaData {
   provider: string;
   type: string;
   url: string;
+  messageId: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -34,4 +35,10 @@ export interface IFetchResponse<T> {
   data?: T;
   status: string;
   error?: string;
+}
+
+declare module 'next' {
+  interface NextApiRequest {
+    user: IUser;
+  }
 }

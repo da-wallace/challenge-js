@@ -29,8 +29,11 @@ const IndexPage: React.FC<IIndexPageProps> = ({ currentUser }) => {
   }, [messagesRef]);
 
   const handleSubmit = async (data: { content: string }) => {
-    const message = await dispatch(createMessage(data));
-    ws.sendMessage(message.payload.data);
+    dispatch(createMessage(data));
+    ws.sendMessage({
+      ...data,
+      user: currentUser
+    });
   };
 
   return (
