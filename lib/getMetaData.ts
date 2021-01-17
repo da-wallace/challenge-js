@@ -8,10 +8,11 @@ export default async function (content: string) {
 
   if (matches?.length) {
     for (const match of matches) {
-      const response = await fetch(match);
+      const url = match.replace('http://', 'https://');
+      const response = await fetch(url);
       const html = await response.text();
       const doc = domino.createWindow(html).document;
-      const tags = getMetadata(doc, match);
+      const tags = getMetadata(doc, url);
 
       metadata.push(tags);
     }
