@@ -30,6 +30,10 @@ const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
     }
   }, [message]);
 
+  const httpsOnly = (url: string) => {
+    return url.replace('http://', 'https://');
+  };
+
   return (
     <>
       <div
@@ -51,11 +55,9 @@ const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
               {hasMetaData ? (
                 message.metadata.map((data) => (
                   <div key={data.id}>
-                    <img
-                      className="w-full"
-                      src={data.image.replace('http://', 'https://')}
-                      alt={data.title}
-                    />
+                    {data.image && (
+                      <img className="w-full" src={httpsOnly(data.image)} alt={data.title} />
+                    )}
                     <div className="px-0 py-4">
                       <div className="font-bold text-md mb-2">{data.title}</div>
                       <p className="text-grey-darker text-sm">{data.description}</p>
