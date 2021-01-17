@@ -51,7 +51,11 @@ const Nav: React.FC<IMessageProps> = ({ message, isUser }) => {
               {hasMetaData ? (
                 message.metadata.map((data) => (
                   <div key={data.id}>
-                    <img className="w-full" src={data.image} alt={data.title} />
+                    <img
+                      className="w-full"
+                      src={data.image.replace('http://', 'https://')}
+                      alt={data.title}
+                    />
                     <div className="px-0 py-4">
                       <div className="font-bold text-md mb-2">{data.title}</div>
                       <p className="text-grey-darker text-sm">{data.description}</p>
