@@ -5,6 +5,7 @@ import { messagesArray } from '@lib/selectors/messages';
 import { createMessage, fetchMessages } from '@lib/slices/messages.slice';
 import { fetchUsers } from '@lib/slices/users.slice';
 import { WebSocketContext } from '@lib/webSocket';
+import { NextPage } from 'next';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IFetchResponse, IUser } from 'types';
@@ -13,7 +14,7 @@ interface IIndexPageProps {
   currentUser: IUser;
 }
 
-const IndexPage: React.FC<IIndexPageProps> = ({ currentUser }) => {
+const IndexPage: NextPage<IIndexPageProps> = ({ currentUser }) => {
   const ws = React.useContext(WebSocketContext);
   const dispatch = useDispatch();
   const messages = useSelector(messagesArray);

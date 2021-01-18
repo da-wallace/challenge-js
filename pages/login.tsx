@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,7 +8,7 @@ interface ILoginFormValues {
   username: string;
 }
 
-const LoginPage: React.FC = () => {
+const LoginPage: NextPage = () => {
   const [error, setError] = React.useState<null | string>(null);
   const router = useRouter();
 
